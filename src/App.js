@@ -7,26 +7,19 @@ import Home from './components/Home/Home';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard/Dashboard';
 
-var admins = [
-  'B6a5YeK63nVjYYsR3LjOqqKGSq92',
-  '7JR2BIzi72WRCC8uv0jD3mDFpBH2',
-  'usQyoDWpn8YyDPem6ZwoQt2Jzhh1', 
-  'Hey0QY7u1QWXJeTCSz8NRmJXAph2', //ip
-  'd4EVn35jQjYk2eGNWixKS9vhYqC2' // colega do Quintas
-]
-
 var pts = [
   "admin@teste.pt",
+  
   "miguelt@oxygenapp.pt",
   "brunol@oxygenapp.pt",
   "hugom@oxygenapp.pt",
   "joaoleite@ptonline.pt",
   "faraujo@oxygenapp.pt",
 
-
   // NOVOS
 
-  ""
+  "dcr0021@hotmail.com", // diiRibeiro
+  "dannysete@hotmail.com" // Internet1998
 ]
 
 
