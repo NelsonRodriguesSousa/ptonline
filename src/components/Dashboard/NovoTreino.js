@@ -178,14 +178,8 @@ class NovoTreino extends Component {
                     title: 'Sucesso!',
                     text: 'O treino foi adicionado com sucesso',
                 })
-    
-    
-                // limpar os campos 
-
-                this.limparCampos();
-                // fechar Modal
+                
                 this.props.fecharModal();
-    
                 // Voltar a carregar os planos
                 this.props.carregarPlanos();
     
@@ -201,8 +195,6 @@ class NovoTreino extends Component {
             });
 
         }
-
-
     
     }
 

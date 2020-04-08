@@ -32,9 +32,10 @@ import 'axios-progress-bar/dist/nprogress.css'
 
 
 class Dashboard extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.handleChange = this.handleChange.bind(this);
+        this.carregarAtletas = this.carregarAtletas.bind(this)
         this.state = {
 
             atletas: [],
@@ -44,7 +45,9 @@ class Dashboard extends Component {
             nome: "",
             apelido: "",
             email: "",
-            password: ""
+            password: "",
+
+            active: "users"
         }
     }
 
@@ -100,28 +103,27 @@ class Dashboard extends Component {
     }
 
     carregarAtletas() {
+        // carregar os users do admin
+
+        Axios.get("users/byAdmin/" + fire.auth().currentUser.uid)
+            .then(res => {
+
+
+                this.setState({ atletas: res.data.users })
+
+                console.log(this.state.atletas)
+
+            }).catch(error => {
+
+                console.log(error.message)
+            });
 
          
 
     }
     
     componentDidMount() {
-        // carregar os users do admin
-
-        Axios.get("users/byAdmin/" + fire.auth().currentUser.uid)
-        .then(res => {
-
-            
-
-            this.setState({ atletas : res.data.users})
-
-            console.log(this.state.atletas)
-
-        }).catch(error => {
-
-           console.log(error.message)
-        });
-
+       this.carregarAtletas();
     }
 
     mostrarModal = () => {
@@ -226,6 +228,12 @@ class Dashboard extends Component {
          
     }
 
+    showSection= (section) =>{
+
+        this.setState({ active : section})
+        
+    }
+
     
 
     render() {
@@ -254,19 +262,19 @@ class Dashboard extends Component {
 
                                 <Nav variant="pills" className="flex-column">
                                     <Nav.Item>
-                                        <Nav.Link eventKey="users"><IoMdContacts />&nbsp;&nbsp;&nbsp;Atletas</Nav.Link>
+                                        <Nav.Link  onClick={() => this.showSection("users")} eventKey="users"><IoMdContacts />&nbsp;&nbsp;&nbsp;Atletas</Nav.Link>
                                     </Nav.Item>
                                     <Nav.Item>
-                                        <Nav.Link eventKey="treino"><IoIosAlbums />&nbsp;&nbsp;&nbsp;Treino</Nav.Link>
+                                        <Nav.Link onClick={() => this.showSection("treino")} eventKey="treino"><IoIosAlbums />&nbsp;&nbsp;&nbsp;Treino</Nav.Link>
                                     </Nav.Item>
                                     <Nav.Item>
-                                        <Nav.Link eventKey="alimentacao"><MdRestaurant />&nbsp;&nbsp;&nbsp;Alimentação</Nav.Link>
+                                        <Nav.Link onClick={() => this.showSection("alimentacao")} eventKey="alimentacao"><MdRestaurant />&nbsp;&nbsp;&nbsp;Alimentação</Nav.Link>
                                     </Nav.Item>
                                     <Nav.Item >
-                                        <Nav.Link eventKey="calendario">< FiCalendar />&nbsp;&nbsp;&nbsp;Calendário  <sup>BETA</sup></Nav.Link>
+                                        <Nav.Link onClick={() => this.showSection("calendario")} eventKey="calendario">< FiCalendar />&nbsp;&nbsp;&nbsp;Calendário  <sup>BETA</sup></Nav.Link>
                                     </Nav.Item>
                                     <Nav.Item>
-                                        <Nav.Link eventKey="evolucao"><IoIosStats />&nbsp;&nbsp;&nbsp;Evoluções <sup>BETA</sup></Nav.Link>
+                                        <Nav.Link onClick={() => this.showSection("evolucao")} eventKey="evolucao"><IoIosStats />&nbsp;&nbsp;&nbsp;Evoluções <sup>BETA</sup></Nav.Link>
                                     </Nav.Item>
 
                                     <Nav.Item>
@@ -282,13 +290,15 @@ class Dashboard extends Component {
                             <Col sm={10} className="p-5 content">
                                 <Tab.Content >
 
-                                    <NovoAtleta showModal={this.state.showModal} fecharModal={this.fecharModal} />
 
-                                    <Tab.Pane eventKey="users">
+                                    {this.state.active == "users" && 
+                                  
+                                    <div>
+
+                                    <NovoAtleta carregarAtletas = {this.carregarAtletas} showModal={this.state.showModal} fecharModal={this.fecharModal} />
 
                                     <Button onClick={this.mostrarModal.bind(this)} className="m-4 p-3 mr-0" ><IoIosAddCircleOutline /> Adicionar Atleta</Button>
 
-                                    <Button variant="dark" onClick={this.carregarAtletas} className="p-3 mr-0" ><IoMdRefresh /> Atualizar Atletas</Button>
 
                                         <Card className="shadow border-0">
                                             <Card.Body>
@@ -299,7 +309,6 @@ class Dashboard extends Component {
                                                       <TableHeaderColumn width={'22%'} dataSort={ true } dataField='nome'>Nome <TiArrowUnsorted/></TableHeaderColumn>
                                                       <TableHeaderColumn width={'26%'} dataSort={ true } dataField='email'>Email <TiArrowUnsorted/></TableHeaderColumn>
                                                       <TableHeaderColumn width={'22%'} dataSort={ true } dataField='tipo_atleta'>Tipo de Atleta <TiArrowUnsorted/></TableHeaderColumn>
-                                                      <TableHeaderColumn width={'10%'} dataField="editar" dataFormat={this.BotaoEditar}></TableHeaderColumn>
                                                       <TableHeaderColumn width={'10%'} dataField="remover" dataFormat={this.BotaoRemover}></TableHeaderColumn>
                                                   </BootstrapTable>
 
@@ -308,83 +317,132 @@ class Dashboard extends Component {
                                                 </Card.Text>
                                             </Card.Body>
                                         </Card>
+                                        </div>
+                  
+
+                                    }
                                         
-                                    </Tab.Pane>
+                                   
 
-                                    <Tab.Pane eventKey="treino">
-                                        <Treino />                                       
-                                    </Tab.Pane>
+                                    {this.state.active == "treino" && <Treino /> }      
+                                    {this.state.active == "alimentacao" && <Alimentacao /> }                                    
+                                    {this.state.active == "calendario" && <Calendario /> }                                    
+                                    {this.state.active == "evolucao" && 
+                                    
+                                    <Card className="shadow border-0">
 
-                                    <Tab.Pane eventKey="alimentacao">
-                                        <Alimentacao />                                       
-                                    </Tab.Pane>
-
-                                    <Tab.Pane eventKey="calendario">
-                                        <Calendario />                                       
-                                    </Tab.Pane>
-
-                                    <Tab.Pane eventKey="evolucao">
-
-                                        <Card className="shadow border-0">
-
-                                            <Alert variant="warning">
-                                                <b>Atenção: </b>
-                                                <br />
-                        Os dados representados nos gráficos são dados de teste , não reais e não estao diretamentos associados á tua conta.
-                        <br />
-                        Estamos a trabalhar para que o mesmo fique funcional o quanto antes.
-                    </Alert>
+                                    <Alert variant="warning">
+                                        <b>Atenção: </b>
+                                        <br />
+                Os dados representados nos gráficos são dados de teste , não reais e não estao diretamentos associados á tua conta.
+                <br />
+                Estamos a trabalhar para que o mesmo fique funcional o quanto antes.
+            </Alert>
 
 
-                                            <Card.Body>
-                                                <Card.Title className="font-weight-bold tab-title" >Evoluções</Card.Title>
-                                                <Card.Text>
+                                    <Card.Body>
+                                        <Card.Title className="font-weight-bold tab-title" >Evoluções</Card.Title>
+                                        <Card.Text>
 
-                                            
-                                                                    <Card.Body>
+                                    
+                                                            <Card.Body>
 
-                                                                        <Row>
-                                                                            <Col sm={6}>
-                                                                                <GraficoLinha
-                                                                                    titulo="Percentagem de Massa Gorda"
-                                                                                    ajuda="texto de ajuda"
-                                                                                    dados={
-                                                                                        [
-                                                                                            { x: '01/2018', y: 70 },
-                                                                                            { x: '02/2018', y: 40 },
-                                                                                            { x: '03/2018', y: 35, },
-                                                                                            { x: '04/2018', y: 25, },
-                                                                                            { x: '05/2018', y: 25, },
-                                                                                            { x: '06/2018', y: 20, },
-                                                                                            { x: '07/2018', y: 15, },
-                                                                                            { x: '08/2018', y: 15, },
-                                                                                        ]
-                                                                                    }
-                                                                                />
-                                                                            </Col>
-                                                                            <Col sm={6}>
-                                                                                <GraficoArea
-                                                                                    titulo="Taxa Metabólica Basal"
-                                                                                    ajuda="texto de ajuda"
-                                                                                    dados={[
-                                                                                        { x: '01/2018', y: 30 },
-                                                                                        { x: '02/2018', y: 50 },
-                                                                                        { x: '03/2018', y: 20, },
-                                                                                        { x: '04/2018', y: 70, },
-                                                                                        { x: '05/2018', y: 75, },
-                                                                                        { x: '06/2018', y: 50, },
-                                                                                        { x: '07/2018', y: 45, }
+                                                            <Row>
+                                            <Col sm={6}>
+                                                <GraficoLinha
+                                                    titulo="Percentagem de Massa Gorda"
+                                                    ajuda="texto de ajuda" 
+                                                    yDomain={[0,50]}
+                                                    dados={
+                                                        [
+                                                            { x: '01/2018', y: 30 },
+                                                            { x: '02/2018', y: 28 },
+                                                            { x: '03/2018', y: 27, },
+                                                            { x: '04/2018', y: 27, },
+                                                            { x: '05/2018', y: 25, },
+                                                            { x: '06/2018', y: 25, },
+                                                            { x: '07/2018', y: 25, },
+                                                            { x: '08/2018', y: 18, },
+                                                        ]
+                                                    }              
+                                                />
+                                               
+                                            </Col>
+                                            <Col sm={6}>
+                                                <GraficoArea
+                                                    titulo="Taxa Metabólica Basal"
+                                                    ajuda="texto de ajuda"
+                                                    yDomain={[0, 2000]}
+                                                    dados={[
+                                                        { x: '01/2018', y: 1500 },
+                                                        { x: '02/2018', y: 1600 },
+                                                        { x: '03/2018', y: 1600, },
+                                                        { x: '04/2018', y: 1400, },
+                                                        { x: '05/2018', y: 1500, },
+                                                        { x: '06/2018', y: 1300, },
+                                                        { x: '07/2018', y: 1000, }
 
-                                                                                    ]} />
+                                                    ]} />
+                                                
+                                            </Col>
+                                        </Row>
 
-                                                                            </Col>
-                                                                        </Row>
-                                                                    </Card.Body>
-                                                                
-                                                </Card.Text>
-                                            </Card.Body>
-                                        </Card>
-                                    </Tab.Pane>
+                                        <br/>
+
+                                        <Row>
+                                   
+                                            <Col sm={6}>
+                                                <GraficoArea
+                                                    titulo="Idade Metabólica"
+                                                    ajuda="texto de ajuda"
+                                                    yDomain={[0, 50]}
+                                                    dados={[
+                                                        { x: '01/2018', y: 40 },
+                                                        { x: '02/2018', y: 38 },
+                                                        { x: '03/2018', y: 36, },
+                                                        { x: '04/2018', y: 30, },
+                                                        { x: '05/2018', y: 28, },
+                                                        { x: '06/2018', y: 25, },
+                                                        { x: '07/2018', y: 24, }
+
+                                                    ]} />
+                                                
+                                            </Col>
+
+                                            <Col sm={6}>
+                                                <GraficoLinha
+                                                    titulo="Percentagem Água Corporal"
+                                                    ajuda="texto de ajuda" 
+                                                    yDomain={[0,100]}
+                                                    dados={
+                                                        [
+                                                            { x: '01/2018', y: 50 },
+                                                            { x: '02/2018', y: 55 },
+                                                            { x: '03/2018', y: 60, },
+                                                            { x: '04/2018', y: 65, },
+                                                            { x: '05/2018', y: 50, },
+                                                            { x: '06/2018', y: 60, },
+                                                            { x: '07/2018', y: 59, },
+                                                            { x: '08/2018', y: 50, },
+                                                        ]
+                                                    }              
+                                                />
+                                               
+                                            </Col>
+                                        </Row>    
+                                                            </Card.Body>
+                                                        
+                                        </Card.Text>
+                                    </Card.Body>
+                                </Card>
+                                    
+                                    
+                                    }                                    
+                              
+
+                                    
+                                 
+                                
                                 </Tab.Content>
                             </Col>
                         </Row>

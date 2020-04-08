@@ -196,7 +196,7 @@ class Alimentacao extends Component {
 
                         <Card.Text>
 
-                            <BootstrapTable data={this.state.planos} search>
+                            <BootstrapTable data={this.state.planos} search striped>
                                 <TableHeaderColumn width={'20%'} dataSort={true} isKey dataField='atletaNome'>Atleta <TiArrowUnsorted/></TableHeaderColumn>
                                 <TableHeaderColumn width={'20%'} hidden={true}  dataField='atleta'></TableHeaderColumn>
                                 <TableHeaderColumn width={'30%'} dataField='nomePlano'>Nome Plano</TableHeaderColumn>

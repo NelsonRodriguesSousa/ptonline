@@ -3,7 +3,7 @@ import mockup1 from '../img/mockup1.png'
 import mockup2 from '../img/mockup2.png'
 import mockup3 from '../img/mockup3.png'
 import mockup4 from '../img/mockup4.png'
-import { Navbar, Nav, Button, Form, Container, Row, Col} from 'react-bootstrap';
+import { Navbar, Nav, Button, Form, Container, Row, Col} from 'react-bootstrap';;
 
 class Corporativo extends Component {
 
@@ -47,7 +47,7 @@ class Corporativo extends Component {
           <Container fluid> 
           <Row>
             <Col sm={8} >
-              <img class="img-fluid" src={mockup1} data-aos="zoom-out-left" />
+              <img class="img-fluid" src={mockup1} data-aos="fade-up" />
             </Col>
             <Col sm={4} className="my-auto" >
               <h1 >

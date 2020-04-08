@@ -78,6 +78,7 @@ class NovoAtleta extends Component {
         .then(res => {
 
             // fechar Modal 
+            this.props.carregarAtletas();
             this.props.fecharModal();
 
             // Mensagem de sucesso

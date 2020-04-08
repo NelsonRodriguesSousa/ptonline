@@ -6,8 +6,8 @@ import ResetPassword from './components/ResetPassword'
 
 import { Route, BrowserRouter as Router } from 'react-router-dom'
 
-//import AOS from 'aos';
-//AOS.init();
+import AOS from 'aos';
+AOS.init();
 
 
 const routing = (

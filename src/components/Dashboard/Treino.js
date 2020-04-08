@@ -205,7 +205,7 @@ Axios.get("treinos/byAdmin/" + fire.auth().currentUser.uid)
 
                         <Card.Text>
 
-                            <BootstrapTable searchPlaceholder={"Pesquisar plano"} data={this.state.treinos} search>
+                            <BootstrapTable searchPlaceholder={"Pesquisar plano"} data={this.state.treinos} search striped>
                                 <TableHeaderColumn width={'20%'} dataSort={true} isKey dataField='atletaNome'>Atleta <TiArrowUnsorted/></TableHeaderColumn>
                                 <TableHeaderColumn width={'20%'} hidden={true}  dataField='atleta'></TableHeaderColumn>
                                 <TableHeaderColumn width={'20%'} dataField='nomePlano'>Nome Plano</TableHeaderColumn>
