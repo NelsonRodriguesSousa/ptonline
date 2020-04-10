@@ -238,10 +238,6 @@ class Dashboard extends Component {
 
     render() {
 
-        var options = {
-            noDataText: "Carregando os atletas"
-          };
-
 
         return (
             <div>
@@ -304,7 +300,7 @@ class Dashboard extends Component {
                                             <Card.Body>
                                             <Card.Title className="font-weight-bold tab-title" >Atletas</Card.Title>
                                                 <Card.Text>  
-                                                      <BootstrapTable options={options} searchPlaceholder={"Pesquisar atleta"} data={this.state.atletas} search striped >
+                                                      <BootstrapTable searchPlaceholder={"Pesquisar atleta"} data={this.state.atletas} search striped >
                                                       <TableHeaderColumn width={'10%'} dataFormat={this.imageFormatter} sort={true} isKey dataField='imagemPerfil'>Avatar</TableHeaderColumn>
                                                       <TableHeaderColumn width={'22%'} dataSort={ true } dataField='nome'>Nome <TiArrowUnsorted/></TableHeaderColumn>
                                                       <TableHeaderColumn width={'26%'} dataSort={ true } dataField='email'>Email <TiArrowUnsorted/></TableHeaderColumn>

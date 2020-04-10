@@ -107,7 +107,7 @@ class NovoAtleta extends Component {
     // Request para enviar email ao mesmo
 
     
-    Axios.post("send-credencials",
+    Axios.post("email/send-credentials",
         {
             "email": this.state.email,
             "password": this.state.password
