@@ -1,136 +1,217 @@
 import React, { Component } from 'react';
-import { Col, Row, Card, Form, Image  } from 'react-bootstrap'
-
-
+import { Col, Row, Card, Form, Image, Button } from 'react-bootstrap'
+import Axios from '../../config/Axios';
 import { fire } from '../../config/Fire';
 import Swal from 'sweetalert2'
+import ReactLoading from 'react-loading';
+import ResetPassword from './ResetPassword'
+
+
+import CountUp from 'react-countup';
+
+import { IoIosLock } from 'react-icons/io'
+
 
 class Perfil extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            atleta: "",
 
+            treinosCount: 0,
+            refeicoesCount: 0,
+            avaliacoesCount: 0,
+
+            loading: true,
+            showModal: false,
         }
     }
 
-    uploadProfilePicture (file) {
-        // Create the file metadata
-        var metadata = {
-            contentType: 'image/jpeg'
-        };
+    componentDidMount() {
 
-        var uid = fire.auth().currentUser.uid;
-
-        var storageRef = fire.storage().ref();
-        // Upload file 
-        var uploadTask = storageRef.child('fotosDePerfil/' + uid).put(file, metadata);
-
-        uploadTask.on('state_changed', function(snapshot){
-            // Observe state change events such as progress, pause, and resume
-            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
         
-            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log('Upload is ' + progress + '% done');
-            
-            
-          }, function(error) {
-            console.log(error.message)
-          }, function() {
-            // Handle successful uploads on complete
-            // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-                uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-                    console.log('File available at', downloadURL);
+        
+        
+        // Carregar atleta
+        Axios.get("users/" + fire.auth().currentUser.uid)
+            .then(res => {
+                this.setState({ atleta: res.data.userRecord, loading: false })
+                console.log(this.state.atleta);
 
-                    fire.firestore().collection("users").doc(uid).update({
-                        imagemPerfil: downloadURL, 
-                    })
-                        .then(function () {
-                  
-                            Swal.fire({
-                                icon: "success",
-                                title: 'Foto atualizada com sucesso',
-                                confirmButtonColor: 'rgba(206, 88, 20, 0.8)',
-                            })
-                        });
+            }).catch(error => {
+                console.log(error.message)
+            }); 
 
-                });
-          });
+
+            Axios.get("users/treinos-count/" + fire.auth().currentUser.uid)
+            .then(res => {
+                
+                this.setState({ treinosCount: res.data.count })
+        
+    
+            }).catch(error => {
+                console.log(error.message)
+            });
+
+            Axios.get("users/avaliacoes-count/" + fire.auth().currentUser.uid)
+            .then(res => {
+                
+                this.setState({ avaliacoesCount: res.data.count })
+    
+    
+    
+            }).catch(error => {
+                console.log(error.message)
+            });
+
+            Axios.get("users/refeicoes-count/" + fire.auth().currentUser.uid)
+            .then(res => {
+                
+                this.setState({ refeicoesCount: res.data.count })
+    
+        
+            }).catch(error => {
+                console.log(error.message)
+            });
+    
     }
 
+    getTreinosCount() {
+        
+       
+    }
+
+    mostrarModal = () => {
+        this.setState({ showModal: true })
+    }
+
+    fecharModal = () => {
+        this.setState({ showModal: false })
+    }
 
     render() {
+
+
         return (
             <div>
+
+
+
                 <Card className="shadow border-0">
                     <Card.Body>
                         <Card.Title className="font-weight-bold tab-title" >Perfil</Card.Title>
-                        <Card.Text>
 
-                            <Row className="text-center">
-                                    <Image className="img-fluid p-0 profile-picture" width="200" src={this.props.atleta.imagemPerfil} roundedCircle />
-                            </Row>
+                        {this.state.loading ?
 
-                            <Row className="p-5 text-center">
+                            <center>
+                                <ReactLoading type='bars' color='#1d87a0' height={'10%'} width={'10%'} />
+                            </center>
+                            
+                            :
 
-                                <Col sm={4}>
+                            <Card.Text>
 
-                                    <h1 class="font-weight-bold">10</h1>
-                                    <p>Planos de treino</p>
+                                <Row className="text-center">
 
-                                </Col>
+                                    <Col sm={3} className="my-auto">
+                                        <Image className="img-fluid p-0 profile-picture" width="200" src={this.state.atleta.imagemPerfil} roundedCircle />
 
-                                <Col sm={4}>
+                                    </Col>
 
-                                    <h1 class="font-weight-bold">5</h1>
-                                    <p>Planos Alimentares</p>
-                                </Col>
+                                    <Col sm={9}>
 
-                                <Col sm={4}>
+                                        <Row className="px-5 py-3 text-center">
 
-                                    <h1 class="font-weight-bold">10</h1>
-                                    <p>Avaliações</p>
-                                </Col>
+                                            <Col sm={4}>
+
+                                                <CountUp start={0} end={this.state.treinosCount} delay={0}>
+                                                    {({ countUpRef }) => (
+                                                        <h1 class="font-weight-bold">
+                                                            <span ref={countUpRef} />
+                                                        </h1>
+                                                    )}
+                                                </CountUp>
 
 
-                            </Row>
 
-                      
-
-                            <Row className="p-5">
-
-                               
-                                <Col sm={8}>
-
-                                    <Form>
-                                        <Form.Group as={Row} controlId="formPlaintextEmail">
-                                            <Form.Label className="font-weight-bold" column sm="3">
-                                                Nome
-                                            </Form.Label>
-                                            <Col sm="9">
-                                                <Form.Control type="text" value={this.props.atleta.nome} readOnly />
+                                                <p>Planos de treino</p>
                                             </Col>
-                                        </Form.Group>
 
-
-                                        <Form.Group as={Row} controlId="formPlaintextPassword">
-                                            <Form.Label className="font-weight-bold" column sm="3">
-                                                Email
-                                            </Form.Label>
-                                            <Col sm="9">
-                                                <Form.Control type="text" value={this.props.atleta.email} readOnly />
+                                            <Col sm={4}>
+                                            <CountUp start={0} end={this.state.refeicoesCount} delay={0}>
+                                                    {({ countUpRef }) => (
+                                                        <h1 class="font-weight-bold">
+                                                            <span ref={countUpRef} />
+                                                        </h1>
+                                                    )}
+                                                </CountUp>
+                                                <p>Planos Alimentares</p>
                                             </Col>
-                                        </Form.Group>
 
-                                      
+                                            <Col sm={4}>
+                                            <CountUp start={0} end={this.state.avaliacoesCount} delay={0}>
+                                                    {({ countUpRef }) => (
+                                                        <h1 class="font-weight-bold">
+                                                            <span ref={countUpRef} />
+                                                        </h1>
+                                                    )}
+                                                </CountUp>
+                                                <p>Avaliações</p>
+                                            </Col>
 
-                                      
+                                        </Row>
 
 
-                                    </Form>
+                                        <Row className="px-5 py-3 text-left">
 
-                                </Col>
-                            </Row>
-                        </Card.Text>
+                                            <Col sm={8}>
+
+                                                <Form>
+                                                    <Form.Group as={Row} controlId="formPlaintextEmail">
+                                                        <Form.Label className="font-weight-bold" column sm="3">
+                                                            Nome
+                                                        </Form.Label>
+                                                        <Col sm="9">
+                                                            <Form.Control type="text" value={this.state.atleta.nome} readOnly />
+                                                        </Col>
+                                                    </Form.Group>
+                                                    <Form.Group as={Row} controlId="formPlaintextPassword">
+                                                        <Form.Label className="font-weight-bold" column sm="3">
+                                                            Email
+                                                    </Form.Label>
+                                                        <Col sm="9">
+                                                            <Form.Control type="text" value={this.state.atleta.email} readOnly />
+                                                        </Col>
+                                                    </Form.Group>
+                                                    <Form.Group as={Row} controlId="formPlaintextPassword">
+                                                        <Form.Label className="font-weight-bold" column sm="3">
+                                                            Tipo de atleta
+                                                    </Form.Label>
+                                                        <Col sm="9">
+                                                            <Form.Control type="text" value={this.state.atleta.tipo_atleta} readOnly />
+                                                        </Col>
+                                                    </Form.Group>
+                                                </Form>
+                                            </Col>
+                                        </Row>
+
+                                        <Row className="px-5 py-3">
+                                    {this.state.showModal &&
+                                        <ResetPassword showModal={this.state.showModal} fecharModal={this.fecharModal} />
+                                    }
+
+                                    <center>
+                                        <Button onClick={this.mostrarModal} ><IoIosLock /> Mudar Password</Button>
+                                    </center>
+                                </Row>
+
+                                        
+                                    </Col>
+                                </Row>
+
+                              
+                            </Card.Text>
+                        }
                     </Card.Body>
                 </Card>
             </div>

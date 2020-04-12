@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import { Col, Row, Modal, Form, Button } from 'react-bootstrap'
 import Axios from '../../config/Axios';
-import { fire }  from '../../config/Fire';
+import { fire } from '../../config/Fire';
 import Swal from 'sweetalert2';
 
 class NovoAtleta extends Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
-        this.state = {  
+        this.state = {
             nome: "",
             apelido: "",
             email: "",
-            password: "",   
+            password: "",
             contacto: "",
             tipoAtleta: "",
         }
@@ -24,7 +24,7 @@ class NovoAtleta extends Component {
 
     gerarPassword = () => {
         var randomstring = Math.random().toString(36).slice(-8);
-        
+
         this.setState({
             password: randomstring
         })
@@ -44,8 +44,8 @@ class NovoAtleta extends Component {
             "tipo_atleta": this.state.tipoAtleta
         };
 
-        
-        if(this.state.email == "" || this.state.name == "" || this.state.apelido == "" || this.state.password == "" || this.state.contacto == "") {
+
+        if (this.state.email == "" || this.state.name == "" || this.state.apelido == "" || this.state.password == "" || this.state.contacto == "") {
 
             Swal.fire({
                 icon: 'warning',
@@ -54,7 +54,7 @@ class NovoAtleta extends Component {
 
             })
 
-        } else if(this.state.contacto.toString().length < 9) {
+        } else if (this.state.contacto.toString().length < 9) {
 
             Swal.fire({
                 icon: 'warning',
@@ -63,7 +63,7 @@ class NovoAtleta extends Component {
 
             })
 
-        } else if (this.state.password.toString().length < 6 ) {
+        } else if (this.state.password.toString().length < 6) {
 
             Swal.fire({
                 icon: 'warning',
@@ -73,55 +73,48 @@ class NovoAtleta extends Component {
             })
         } else {
 
-             
-        Axios.post("users", user)
-        .then(res => {
 
-            // fechar Modal 
-            this.props.carregarAtletas();
-            this.props.fecharModal();
+            Axios.post("users", user)
+                .then(res => {
 
-            // Mensagem de sucesso
-            Swal.fire({
-                icon: 'success',
-                title: 'Sucesso!',
-                text: 'Atleta registado com sucesso. Enviado um email para ' + this.state.email + " com as credenciais.",
-            })
+                    this.props.fecharModal();
+
+                    // Mensagem de sucesso
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Sucesso!',
+                        text: 'Atleta registado com sucesso. Enviado um email para ' + this.state.email + " com as credenciais.",
+                    })
 
 
-            console.log(res.data);
+                    // caso de sucesso é que envia o email
+                    Axios.post("email/send-credentials",
+                        {
+                            "email": this.state.email,
+                            "password": this.state.password
+                        })
+                        .then(res => {
+
+                            console.log(res.data);
+                        });
 
 
-        }).catch(error => {
-
-            console.log(error)
-
-            Swal.fire({
-                icon: 'error',
-                title: 'Ups!',
-                text: 'Ocorreu um erro com o servidor. Por favor contacte o administrador.'
-            })
-        });
+                    console.log(res.data);
 
 
-    // Request para enviar email ao mesmo
+                }).catch(error => {
 
-    
-    Axios.post("email/send-credentials",
-        {
-            "email": this.state.email,
-            "password": this.state.password
-        })
-        .then(res => {
+                    console.log(error)
 
-            console.log(res.data);
-        });
-        
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ups!',
+                        text: 'Ocorreu um erro com o servidor. Por favor contacte o administrador.'
+                    })
+                });
 
         }
 
-
-       
     }
 
     render() {
@@ -134,7 +127,7 @@ class NovoAtleta extends Component {
                     centered
                     onHide={this.props.fecharModal}
                 >
-                      
+
                     <Modal.Header>
                         <Modal.Title id="contained-modal-title-vcenter">
                             Adicionar Atleta
@@ -165,7 +158,7 @@ class NovoAtleta extends Component {
 
                             <Col>
                                 <Form.Group>
-                                    <Form.Control placeholder="Contacto" name="contacto" value={this.state.contacto}  onChange={this.handleChange} className="form-control" type="text" required />
+                                    <Form.Control placeholder="Contacto" name="contacto" value={this.state.contacto} onChange={this.handleChange} className="form-control" type="text" required />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -186,9 +179,9 @@ class NovoAtleta extends Component {
                                     </Form.Control>
                                 </Form.Group>
                             </Col>
-                            </Row>
+                        </Row>
 
-                    
+
                     </Modal.Body>
                     <Modal.Footer>
                         <Button onClick={this.props.fecharModal}>Fechar</Button>
@@ -196,7 +189,7 @@ class NovoAtleta extends Component {
                     </Modal.Footer>
 
                 </Modal>
-               
+
             </div>
         )
     }

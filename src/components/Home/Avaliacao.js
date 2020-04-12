@@ -4,14 +4,15 @@ import Axios from '../../config/Axios';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import { fire } from '../../config/Fire';
 import Swal from 'sweetalert2';
-
+import { IoIosAddCircle} from "react-icons/io";
+import SubemeterAvaliacao from './SubmeterAvaliacao'
 import {IoIosHelpCircle} from 'react-icons/io'
 
 class Avaliacao extends Component {
     constructor(props) {    
         super(props);   
         this.state = {
-            show: false,
+            showModal: false,
             avaliacoes: []
         }
     }
@@ -29,6 +30,15 @@ class Avaliacao extends Component {
           });
     }
 
+    mostrarModal = () => {
+        this.setState({ showModal: true })
+    }
+
+    fecharModal = () => {
+        this.setState({ showModal: false })
+    }
+
+
      dateFormatter(cell) {
     
         return new Date(cell).toLocaleDateString();
@@ -40,10 +50,17 @@ class Avaliacao extends Component {
         return (
             <div>
 
-                <Card className="shadow border-0">       
+                {this.state.showModal &&
+
+                    <SubemeterAvaliacao showModal={this.state.showModal} fecharModal={this.fecharModal} />
+                }
+
+                <Button onClick={this.mostrarModal} className="m-4"><IoIosAddCircle /> Submeter Avaliação</Button>
+
+                <Card className="shadow border-0">
                     <Card.Body>
 
-                        <Card.Title className="font-weight-bold tab-title" >Treino</Card.Title>
+                        <Card.Title className="font-weight-bold tab-title" >Histórico de avaliações</Card.Title>
 
                         <Card.Text>
 

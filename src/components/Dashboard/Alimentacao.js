@@ -7,7 +7,7 @@ import { TiArrowUnsorted } from "react-icons/ti";
 import Swal from 'sweetalert2';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import NovaAlimentacao from './NovaAlimentacao';
-
+import ReactLoading from 'react-loading';
 
 class Alimentacao extends Component {
     constructor() {
@@ -16,6 +16,8 @@ class Alimentacao extends Component {
             showModal: false,
             planos: [],
             refeicoes: [],
+            isDataFetched: false,
+
         }
     }
 
@@ -37,7 +39,7 @@ class Alimentacao extends Component {
         Axios.get("refeicoes/byAdmin/" + fire.auth().currentUser.uid)
         .then(res => {
 
-            this.setState({ planos: res.data.refeicoes })
+            this.setState({ planos: res.data.refeicoes, isDataFetched : true })
 
             console.log(this.state.planos);
 
@@ -171,14 +173,29 @@ class Alimentacao extends Component {
 
             console.log(error.message)
         });
-
-
-
-
     }
+
+
+  _setTableOption() {
+        if (this.state.isDataFetched) {
+            return "No expenses found";
+        } else {
+            return (
+
+                <div className="text-center">
+                <ReactLoading type='bars' color='#1d87a0' height={'10%'} width={'10%'} />
+                </div>
+
+            );
+        }
+    }
+
 
     render() {
 
+        let tableOtions = {
+            noDataText: this._setTableOption(),
+        };
 
         return (
             <div>
@@ -196,7 +213,7 @@ class Alimentacao extends Component {
 
                         <Card.Text>
 
-                            <BootstrapTable data={this.state.planos} search striped>
+                            <BootstrapTable options={tableOtions} data={this.state.planos} search striped>
                                 <TableHeaderColumn width={'20%'} dataSort={true} isKey dataField='atletaNome'>Atleta <TiArrowUnsorted/></TableHeaderColumn>
                                 <TableHeaderColumn width={'20%'} hidden={true}  dataField='atleta'></TableHeaderColumn>
                                 <TableHeaderColumn width={'30%'} dataField='nomePlano'>Nome Plano</TableHeaderColumn>

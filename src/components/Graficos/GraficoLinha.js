@@ -10,6 +10,7 @@ import {
     HorizontalGridLines,
     VerticalGridLines,
     LineMarkSeries,
+    FlexibleWidthXYPlot
 } from 'react-vis';
 
 
@@ -47,7 +48,7 @@ class GraficoLinha extends Component {
                         </Card.Title>
                         <Card.Text>
 
-                            <XYPlot width={500} height={300}
+                            <FlexibleWidthXYPlot height={400}
                                 xType="ordinal"
                                 yDomain={this.props.yDomain}
                             >
@@ -65,7 +66,7 @@ class GraficoLinha extends Component {
                                     markStyle={{ stroke: '#1d86a0' }}
                                     data={this.props.dados}
                                 />
-                            </XYPlot>
+                            </FlexibleWidthXYPlot>
                         </Card.Text>
                     </Card.Body>
                 </Card>

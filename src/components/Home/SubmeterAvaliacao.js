@@ -78,7 +78,9 @@ class SubmeterAvaliacao extends Component {
                     className="p-3"
                     show={this.props.showModal}
                     aria-labelledby="contained-modal-title-vcenter"
+                    onHide={this.props.fecharModal}
                     centered
+                   
                 >
                     <Modal.Header>
 

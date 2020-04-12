@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Form, Button, Row, Col, Card, Container } from 'react-bootstrap'
+import Axios from '../config/Axios';
+import Swal from 'sweetalert2'
+
 
 class ResetPassword extends Component {
     constructor(props) {
@@ -14,8 +17,54 @@ class ResetPassword extends Component {
         this.setState({ [e.target.name]: e.target.value });
     }
 
-    sendemail = () => {
-        alert("email enviado")
+    resetPassword = () => {
+
+        let body = {
+            "email" : this.state.email,
+        }
+       
+        if(this.state.email == "") {
+            
+            Swal.fire({
+                icon: 'warning',
+                title: 'Sucesso!',
+                text: 'Por favor insira um email.',
+            })
+
+
+        } else {
+
+            Axios.post("email/reset-password", body)
+            .then(res => {
+
+                
+    
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sucesso!',
+                    text: 'Foi enviado um email com uma nova password.',
+                }).then(function() {
+                    window.location = "/login";
+                });
+    
+                console.log(res.data);
+
+
+    
+            }).catch(error => {
+    
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ups!',
+                    text: 'Ocorreu um erro ' + error,
+                })
+            });
+    
+        }
+
+       
+
+
     }
 
 
@@ -43,10 +92,8 @@ class ResetPassword extends Component {
 
                                         <div class="text-center">
 
+                                        <Button onClick={this.resetPassword}>Mudar</Button>
 
-                                            <Button type="submit" onClick={this.sendEmail} className="btn btn-lg btn-primary font-weight-bold mb-2" variant="primary" >
-                                                Enviar Email
-                                         </Button>
                                         </div>
 
                                     </Form>

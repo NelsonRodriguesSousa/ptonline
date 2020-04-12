@@ -3,11 +3,11 @@ import { Tab, Nav, Col, Row, Container, Card, Alert, Button, Accordion, Image, D
 import FirebaseService from '../../config/FirebaseService';
 import { IoMdLogOut, IoIosStats, IoIosAlbums, IoIosAddCircleOutline, IoMdContacts, IoMdRefresh } from "react-icons/io";
 
-import {AiOutlineLoading3Quarters} from 'react-icons/ai'
-import NovoAtleta from './NovoAtleta';
+
 import GraficoLinha from '../Graficos/GraficoLinha'
 import GraficoArea from '../Graficos/GraficoArea'
 
+import Atletas from './Atletas'
 import Treino from './Treino';
 import Alimentacao from './Alimentacao';
 import Calendario from './Calendario';
@@ -117,9 +117,6 @@ class Dashboard extends Component {
 
                 console.log(error.message)
             });
-
-         
-
     }
     
     componentDidMount() {
@@ -138,95 +135,7 @@ class Dashboard extends Component {
         this.setState({ [e.target.name]: e.target.value });
     }  
 
-    renderPaginationShowsTotal(start, to, total) {
-        return (
-            <p >
-                {total} Atletas
-          </p>
-        );
-    }
-
-    imageFormatter(cell, row){
-        return ( <Image width="60" src={cell} roundedCircle/>
-        ) 
-    }
-
-    BotaoRemover = (cell, row, rowIndex) => {
-        return (
-           <Button 
-              variant="danger"
-              onClick={() => 
-              this.removerAtleta(cell, row, rowIndex)}
-           >
-           Remover
-           </Button>
-        )
-     }
-
-     removerAtleta(cell, row, rowIndex){
-
-        Swal.fire({
-            title: 'Tem a certeza?',
-            text: "Todos os planos e avaliações associados a este utilizador irão ser apagados. Esta ação não pode ser revertida.",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sim, apagar',
-            cancelButtonText: 'Cancelar',
-          }).then((result) => {
-              if (result.value) {
-
-
-                  // Chamar aqui a funcao de apagar
-
-                  Axios.delete("users/" + row.id)
-                      .then(res => {
-
-                          Swal.fire({
-                              title: 'Sucesso!',
-                              text: "O plano foi eliminado com sucesso.",
-                              icon: 'success',
-                              confirmButtonText: 'Fechar',
-
-                          })
-
-
-                          // voltar a carregar os users, para atualziar a lista!
-                          this.componentDidMount();
-
-                      }).catch(error => {
-
-                          console.log(error.message)
-                      });
-              }
-          })
-        
-
-
-
-     }
-
-     BotaoEditar = (cell, row, rowIndex) => {
-        return (
-           <Button 
-              variant="primary"
-              onClick={() => 
-              this.editarAtleta(cell, row, rowIndex)}
-           >
-           Editar
-           </Button>
-        )
-     }
-
-    editarAtleta(cell, row, rowIndex){
-       alert("Brevemente será possível editar " + row.nome)
-    }
-
-    image = (cell, row, rowIndex) => {
-          return (<img src={cell} height="60"/>)
-         
-    }
+   
 
     showSection= (section) =>{
 
@@ -250,8 +159,8 @@ class Dashboard extends Component {
                             <Col className="dashboard-sidebar py-5" sm={2}>
                                 
                                 <center>
-                                    <img width="100" className="rounded-circle mb-4" src="https://i.imgur.com/D11Q66u.png" />   
-                                    <p class="logo pb-3">CONTA PT</p>
+                                    <img width="100" className="rounded-circle mb-4" src={this.props.pt.imagem} />   
+                                    <p class="logo pb-3">{this.props.pt.nome}</p>
 
                                 </center>
 
@@ -287,36 +196,7 @@ class Dashboard extends Component {
                                 <Tab.Content >
 
 
-                                    {this.state.active == "users" && 
-                                  
-                                    <div>
-
-                                    <NovoAtleta carregarAtletas = {this.carregarAtletas} showModal={this.state.showModal} fecharModal={this.fecharModal} />
-
-                                    <Button onClick={this.mostrarModal.bind(this)} className="m-4 p-3 mr-0" ><IoIosAddCircleOutline /> Adicionar Atleta</Button>
-
-
-                                        <Card className="shadow border-0">
-                                            <Card.Body>
-                                            <Card.Title className="font-weight-bold tab-title" >Atletas</Card.Title>
-                                                <Card.Text>  
-                                                      <BootstrapTable searchPlaceholder={"Pesquisar atleta"} data={this.state.atletas} search striped >
-                                                      <TableHeaderColumn width={'10%'} dataFormat={this.imageFormatter} sort={true} isKey dataField='imagemPerfil'>Avatar</TableHeaderColumn>
-                                                      <TableHeaderColumn width={'22%'} dataSort={ true } dataField='nome'>Nome <TiArrowUnsorted/></TableHeaderColumn>
-                                                      <TableHeaderColumn width={'26%'} dataSort={ true } dataField='email'>Email <TiArrowUnsorted/></TableHeaderColumn>
-                                                      <TableHeaderColumn width={'22%'} dataSort={ true } dataField='tipo_atleta'>Tipo de Atleta <TiArrowUnsorted/></TableHeaderColumn>
-                                                      <TableHeaderColumn width={'10%'} dataField="remover" dataFormat={this.BotaoRemover}></TableHeaderColumn>
-                                                  </BootstrapTable>
-
-                                               
-                                                  
-                                                </Card.Text>
-                                            </Card.Body>
-                                        </Card>
-                                        </div>
-                  
-
-                                    }
+                                    {this.state.active == "users" && <Atletas /> }
                                         
                                    
 

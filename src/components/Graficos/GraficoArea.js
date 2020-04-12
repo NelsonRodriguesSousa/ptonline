@@ -10,8 +10,10 @@ import {
     HorizontalGridLines,
     VerticalGridLines,
     AreaSeries,
-    GradientDefs
+    GradientDefs,
+    FlexibleWidthXYPlot
 } from 'react-vis';
+
 
 
 
@@ -51,7 +53,7 @@ class GraficoLinha extends Component {
                         </Card.Title>
                         <Card.Text>
 
-                                    <XYPlot width={500} height={300}
+                                    <FlexibleWidthXYPlot height={400} 
                                         xType="ordinal"
                                         yDomain={this.props.yDomain}
                                     >
@@ -80,7 +82,7 @@ class GraficoLinha extends Component {
                                             data={this.props.dados}
                                         />
 
-                                    </XYPlot>
+                                    </FlexibleWidthXYPlot>
 
 
                        
