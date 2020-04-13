@@ -11,6 +11,14 @@ class Corporativo extends Component {
     return (
       <div>
 
+
+<div class="topbar-info">
+
+  Estamos na versão beta!
+
+</div>
+
+
         <Navbar bg="dark" className="py-3" expand="lg" variant="dark">
           <Container>
 
@@ -26,19 +34,13 @@ class Corporativo extends Component {
             </Navbar.Collapse>
           </Container>
         </Navbar>
-
         <header>
-          <div className="overlay"></div>
-          <div className="container h-100">
-            <div className="d-flex h-100 text-center align-items-center">
-              <div className="w-100 text-white">
+          <div className="header-home">
+            <div class="container d-flex h-100 text-center">
+              <div class="row justify-content-center align-self-center">
                 <h1 className="logo-intro" >Plataforma de Gestão para Personal Trainers</h1>
+                <h1 className="mb-0 font-weight-light logo-desc m-3">A ferramenta ideal para monitorizar os teus atletas</h1>
                 <br />
-                <h1 className="mb-0 font-weight-light logo-desc">A ferramenta ideal para monitorizar os teus atletas</h1>
-                <br />            
-                  <a className="btn btn-primary m-2" >
-                  Saber mais
-                  </a>
               </div>
             </div>
           </div>
@@ -118,7 +120,6 @@ class Corporativo extends Component {
                     <li>Percentagem de Massa Gorda</li>
                     <li>Percentagem de Água Corporal</li>
                     <li>Taxa Metabólica Basal</li>
-                    <li>Idade Metabólica</li>
                     <li>Idade Metabólica</li>
                     <li>Perímetros (Cintura, Anca, Peito..)</li>
                   </ul>

@@ -34,7 +34,6 @@ var pts = [
     email: "joaoplleite@gmail.com", // elninja
     nome: "João Leite",
     imagem: imagemDefault ,
-    flag: 'pt',
   }
 ]
 
@@ -79,8 +78,6 @@ class App extends Component {
   }
 
 
-  
-  
   render() {
     return (
       <div>
