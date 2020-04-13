@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Row, Card, } from 'react-bootstrap'
+import { Col, Row, Card, Alert } from 'react-bootstrap'
 import GraficoLinha from '../Graficos/GraficoLinha'
 import GraficoArea from '../Graficos/GraficoArea'
 
@@ -15,6 +15,15 @@ class Evolucao extends Component {
         return (
             <div>
                 <Card className="shadow border-0">
+
+                <Alert variant="warning">
+                        <b>Atenção: </b> 
+                        <br/>
+                        Os dados representados nesta página são dados de teste , não reais e não estão diretamente associados á tua conta.
+                        <br/>
+                        Estamos a trabalhar para que o mesmo fique funcional o quanto antes.
+                    </Alert>
+
                     <Card.Body>
                         <Card.Title className="font-weight-bold tab-title" >Evolução</Card.Title>
 

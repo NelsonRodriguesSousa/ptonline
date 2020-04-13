@@ -661,3 +661,9 @@ sup {
     font-size: 3em;
   }
 }
+
+.back a {
+
+  color: #fff;
+  padding: 30px 0;
+}

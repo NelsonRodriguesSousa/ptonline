@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import ReactLoading from 'react-loading';
 
-import {FaFileCsv} from 'react-icons/fa'
+import {FaFilePdf} from 'react-icons/fa'
 
 
 class Treino extends Component {
@@ -109,7 +109,7 @@ class Treino extends Component {
                 onClick={() =>
                     this.downloadCSV(cell, row)}
             >
-                <FaFileCsv/>
+                Download PDF
             </Button>
         )
     }
@@ -117,7 +117,7 @@ class Treino extends Component {
     downloadCSV(cell, row) {
         Swal.fire({
             title: 'Tá quase!',
-            text: "Brevemente será possível o download dos treinos em formato CSV.",
+            text: "Brevemente será possível o download dos treinos em formato PDF.",
             icon: 'success',
             confirmButtonText: 'Fechar',
 
@@ -217,7 +217,12 @@ class Treino extends Component {
 
     _setTableOption() {
         if (this.state.isDataFetched) {
-            return "No expenses found";
+            return (
+            
+                <div class="m-3">
+                    <b>Não existem planos!</b>
+                </div>
+                );
         } else {
             return (
 
@@ -228,7 +233,6 @@ class Treino extends Component {
             );
         }
     }
-
 
     render() {
 
@@ -260,13 +264,13 @@ class Treino extends Component {
                         <Card.Text>
 
                             <BootstrapTable options={tableOtions} searchPlaceholder={"Pesquisar plano"} data={this.state.treinos} search striped>
-                                <TableHeaderColumn width={'20%'} dataSort={true} isKey dataField='atletaNome'>Atleta <TiArrowUnsorted /></TableHeaderColumn>
                                 <TableHeaderColumn width={'20%'} hidden={true} dataField='atleta'></TableHeaderColumn>
-                                <TableHeaderColumn width={'20%'} dataField='nomePlano'>Nome Plano</TableHeaderColumn>
-                                <TableHeaderColumn width={'30%'} dataField='objetivoDoPlano'>Objetivo do Plano</TableHeaderColumn>
+                                <TableHeaderColumn width={'25%'} dataSort={true} isKey dataField='atletaNome'>Atleta <TiArrowUnsorted /></TableHeaderColumn>
+                                <TableHeaderColumn width={'15%'} dataField='nomePlano'>Nome Plano</TableHeaderColumn>
+                                <TableHeaderColumn width={'25%'} dataField='objetivoDoPlano'>Objetivo do Plano</TableHeaderColumn>
                                 <TableHeaderColumn dataField="exericicos" dataFormat={this.VerExercicios}>Ações</TableHeaderColumn>
-                                <TableHeaderColumn dataField="remover" dataFormat={this.BotaoDownloadCSV}></TableHeaderColumn>
                                 <TableHeaderColumn dataField="remover" dataFormat={this.BotaoRemover}></TableHeaderColumn>
+                                <TableHeaderColumn dataField="remover" dataFormat={this.BotaoDownloadCSV}></TableHeaderColumn>
                             </BootstrapTable>
 
                         </Card.Text>

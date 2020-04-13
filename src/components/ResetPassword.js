@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Form, Button, Row, Col, Card, Container } from 'react-bootstrap'
 import Axios from '../config/Axios';
 import Swal from 'sweetalert2'
+import {FaArrowLeft } from 'react-icons/fa';
 
 
 class ResetPassword extends Component {
@@ -79,6 +80,7 @@ class ResetPassword extends Component {
                         <div class="row align-self-center w-100">
                             <div class="offset-3 col-6 ">
 
+                               
                                 <Card className="border-0 shadow p-5 login-card text-center">
                                     <h3>Reset da Password</h3>
                                     <hr />
@@ -93,6 +95,12 @@ class ResetPassword extends Component {
                                         <div class="text-center">
 
                                         <Button onClick={this.resetPassword}>Mudar</Button>
+
+                                            <p>
+                                                <small className="p-4">
+                                                    <a href="/login">Iniciar sessão</a>
+                                                </small>
+                                            </p>
 
                                         </div>
 

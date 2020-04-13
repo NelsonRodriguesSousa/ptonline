@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { Tab, Nav, Col, Row, Container} from 'react-bootstrap'
 import FirebaseService from '../../config/FirebaseService';
 import { IoMdLogOut, IoIosStats, IoIosAlbums, IoMdCafe, IoMdHeart } from "react-icons/io";
-
 import { FaUserAlt } from "react-icons/fa";
-
 import PlanosTreino from './PlanosTreino'
 import PlanosAlmentares from './PlanosAlimentares';
 import Avaliacao from './Avaliacao'
@@ -13,7 +11,6 @@ import Perfil from './Perfil';
 import Axios from '../../config/Axios';
 import { fire } from '../../config/Fire';
 
-  
 class Home extends Component {
     constructor() {
         super();
@@ -88,7 +85,7 @@ class Home extends Component {
                                         <Nav.Link  onClick={() => this.showSection("avaliacao")} eventKey="avaliacao"><IoMdHeart />&nbsp;&nbsp;&nbsp; Avaliações</Nav.Link>
                                     </Nav.Item>
                                     <Nav.Item>
-                                        <Nav.Link onClick={() => this.showSection("evolucao")} eventKey="evolucao"><IoIosStats />&nbsp;&nbsp;&nbsp;Evolução <sup>BETA</sup></Nav.Link>
+                                        <Nav.Link onClick={() => this.showSection("evolucao")} eventKey="evolucao"><IoIosStats />&nbsp;&nbsp;&nbsp;Evolução <sup>BREVEMENTE</sup></Nav.Link>
                                     </Nav.Item>
                                     <Nav.Item>
                                         <br/>

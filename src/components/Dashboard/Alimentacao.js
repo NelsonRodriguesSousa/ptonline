@@ -178,7 +178,12 @@ class Alimentacao extends Component {
 
   _setTableOption() {
         if (this.state.isDataFetched) {
-            return "No expenses found";
+            return (
+            
+                <div class="m-3">
+                    <b>Não existem planos alimentares!</b>
+                </div>
+                );
         } else {
             return (
 

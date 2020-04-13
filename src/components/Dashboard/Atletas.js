@@ -123,7 +123,12 @@ class Atletas extends Component {
 
     _setTableOption() {
         if (this.state.isDataFetched) {
-            return "No expenses found";
+            return (
+            
+                <div class="m-3">
+                    <b>Não existem atletas</b>
+                </div>
+                );
         } else {
             return (
 
