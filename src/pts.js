@@ -26,11 +26,19 @@ export const pts = [
         nome: "João Leite",
         imagem: imagemDefault,
     },
-
     {
         email: "miguelguimaraes_17@hotmail.com", // 12345678
         nome: "Miguel Guimarães",
         imagem: "https://i.imgur.com/JInghwm.png"
+    },
+    {
+        email: "Joaocostapr10@gmail.com", // miguelrenato69
+        nome: "João Miguel",
+        imagem: "https://i.imgur.com/JInghwm.png"
+    },
+    {
+        email: "bruno.braga.andrade.1999@gmail.com", //soulindo
+        nome: "Bruno Andrade",
+        imagem: imagemDefault
     }
-
 ]

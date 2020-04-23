@@ -168,13 +168,11 @@ class Alimentacao extends Component {
 
                  });
 
-
         }).catch(error => {
 
             console.log(error.message)
         });
     }
-
 
   _setTableOption() {
         if (this.state.isDataFetched) {
@@ -194,7 +192,6 @@ class Alimentacao extends Component {
             );
         }
     }
-
 
     render() {
 
